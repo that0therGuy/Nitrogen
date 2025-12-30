@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Nitrogen</title>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </head>
 <body>
 
 <div class="nav">
-    <h1 style="font-family: 'jetbrains mono';" class="top">Nitrogen</h1>
+    <h1 style="font-family: 'jetbrains mono';" class="top">Nitrogen <span>[BETA]</span></h1>
     <h1 style="width:20vw;">      </h1>
 
     <div class="links">
-        <a>Repository</a>
+
+        <a href="https://github.com/that0therGuy/Nitrogen" target="_blank">Repository</a>
         <p class="time"></p>
     </div>
 
@@ -53,6 +54,13 @@
     }
     a{
         letter-spacing: 1px;
+        text-decoration: none;
+        transition: all .5s;
+
+    }
+    a:hover{
+        letter-spacing: 2px;
+
     }
     .editor {
         width:75%;
@@ -100,6 +108,10 @@
     }
     *{
         color:rgba(22, 0, 44, 0.6);
+    }
+    span{
+        color: rgba(78, 13, 85, 0.6);
+
     }
     .none{
         animation: scale 1s infinite;
@@ -772,7 +784,15 @@
         MathJax.typesetPromise([document.querySelector('.editor')]);
     });
 
-
+/*
+* day 1: Basic styling and functionality, Block splitting
+* day 2: Added top bar, QoL changes, arrow notations, plenty more functions, decided name
+*
+*
+*
+*
+*
+* */
 
 
 
