@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+<body>
+
+<div class="nav">
+    <h1 style="font-family: 'jetbrains mono';" class="top">Nitrogen</h1>
+    <h1 style="width:20vw;">      </h1>
+
+    <div class="links">
+        <a>Github</a>
+        <a>Documentation</a>
+    </div>
+
+</div>
+
+
+
+
+<div class="container">
+
+    <p class="none">Press Control + Space to get Started!</p>
+    <div class="editor">
+
+    </div>
+
+</div>
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    body{
+        background: linear-gradient(45deg, rgba(106, 23, 87, 0.3) 0%, rgba(142, 125, 161, .3) 100%);
+        background-attachment: fixed;
+    }
+    ::selection{
+        background-color:rgba(106, 23, 87,.2);
+    }
+    .container{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height:100vh;
+        font-family: 'jetbrains mono';
+    }
+    a{
+        letter-spacing: 1px;
+    }
+    .editor {
+        width:75%;
+        box-shadow: 0 0 80px 0 rgba(232, 223, 255, 0.4);
+        border-radius:15px;
+        height:fit-content;
+        transition: all 1s ease;
+        display: block;
+        margin:5%;
+        background-color:transparent;
+    }
+    .hblock{
+        padding:10px;
+        font-size:32px;
+        margin:2px;
+    }
+    .pblock{
+        padding:10px;
+        font-size:16px;
+        margin:1px;
+    }
+    .tblock{
+        padding:10px;
+        font-size:48px;
+        margin:1px;
+    }
+    .mblock{
+        padding:10px;
+        margin:1px;
+    }
+    .tblock,.pblock,.hblock,.mblock{
+        transition: all .2s;
+        background:transparent;
+        box-shadow: 0 0 20px 0 rgba(215, 202, 220, 0.5);
+
+
+    }
+    .tblock:focus,.pblock:focus,.hblock:focus,.mblock:focus{
+        outline:none;
+        background-color: rgba(26, 0, 44, 0.1);
+        box-shadow: 0 0 20px 0 rgba(198, 147, 204, 0.1);
+
+    }
+    *{
+        color:rgba(22, 0, 44, 0.6);
+    }
+    .none{
+        animation: scale 1s infinite;
+        background: linear-gradient(90deg, rgb(48, 0, 101,.5) 0%, rgb(52, 41, 119,.5) 100%);
+        background-clip: text;
+        color: transparent;
+        font-weight:500;
+        letter-spacing: 2px;
+        padding:15px;
+        border:1px solid rgba(36, 0, 44, 0.2);
+        border-radius: 15px;
+    }
+    @keyframes scale{
+        0%{
+            scale:1;
+        }
+        50%{
+            scale:1.02;
+        }
+        100%{
+            scale:1;
+        }
+    }
+    p img{
+        resize:both;
+
+    }
+
+    .top,.links{
+        flex:1;
+        font-family: 'jetbrains mono';
+        margin:0;
+        margin-left:2vw;
+        margin-right:2vw;
+    }
+    .top{
+        text-align: center;
+        opacity: .8;
+    }
+    .links{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        gap:30px;
+
+
+    }
+    .nav{
+        border-radius:15px;
+        border: 1px solid rgba(106, 23, 87,.3);
+        position: fixed;
+        top: 0;
+        transform: translateX(-50%);
+        box-shadow: 0 0 20px 0 rgb(178, 108, 255,.2);
+        left: 50%;
+        display:flex;
+        width:85svw;
+        padding-bottom:5px;
+        backdrop-filter:blur(10px) !important;
+        margin-top:5px;
+        padding-top:5px;
+        background: linear-gradient(45deg, rgba(110, 14, 88, 0.1) 0%, rgba(103, 50, 161, 0.15) 100%);
+        transition: all .5s;
+    }
+    .arrow{
+        margin:0;
+        font-size: 32px;
+        text-align: center;
+        margin-right:10px;
+        margin-left:10px;
+    }
+    .start{
+        width:100%;
+        margin-top:0;
+        border-radius: 2px;
+
+    }
+
+
+
+</style>
+
+<script>
+    let x= 0
+    let img_n=0
+    let currentblock='';
+    function hblock(){
+        let h= document.createElement('div');
+
+
+        if (document.activeElement.parentElement.classList.contains('hold')){
+            document.querySelector('.editor').insertBefore(h,document.activeElement.parentElement.nextSibling);
+
+        }else{
+            document.querySelector('.editor').insertBefore(h,document.activeElement.nextSibling);
+
+        }
+
+
+        h.classList.add('hblock');
+        h.setAttribute('id', Math.random());
+        h.setAttribute('contenteditable','true')
+        h.style.border='1px solid rgba(22, 0, 44, 0.5)';
+
+        h.style.borderRadius='15px'
+        h.focus();
+    }
+    function pblock(){
+        let p= document.createElement('div');
+        if (document.activeElement.parentElement.classList.contains('hold')){
+            document.querySelector('.editor').insertBefore(p,document.activeElement.parentElement.nextSibling);
+
+        }else{
+            document.querySelector('.editor').insertBefore(p,document.activeElement.nextSibling);
+
+        }
+        p.classList.add('pblock');
+        p.setAttribute('contenteditable','true')
+        p.style.border='1px solid rgba(22, 0, 44, 0.4)';
+        p.style.height='fit-content'
+        p.setAttribute('id', Math.random());
+        p.style.borderRadius='15px'
+        p.focus();
+    }
+    function mblock(){
+        img_n+=1
+        let p= document.createElement('div');
+        if (document.activeElement.parentElement.classList.contains('hold')){
+            document.querySelector('.editor').insertBefore(p,document.activeElement.parentElement.nextSibling);
+
+        }else{
+            document.querySelector('.editor').insertBefore(p,document.activeElement.nextSibling);
+
+        }        p.classList.add('mblock');
+        let placeholder= document.createElement('p');
+        p.appendChild(placeholder);
+
+        placeholder.innerText='Click to add Media'
+        placeholder.style.display='inline-flex'
+        p.style.border='1px solid rgba(22, 0, 44, 0.4)';
+        p.style.height='fit-content'
+        p.style.borderRadius='15px'
+        p.style.textAlign='center'
+        p.style.padding='5px'
+
+        let input=document.createElement('input');
+        p.appendChild(input);
+        p.setAttribute('contenteditable','true')
+        let inputtf=false
+        /*input type="file" id="fileInput" hidden>*/
+        input.type='file'
+        let n=img_n
+        input.classList.add('img')
+        input.setAttribute('id',img_n)
+        input.hidden=true;
+        p.addEventListener('click',()=>{
+            if (!inputtf){
+                input.click()
+
+            }
+        })
+        const preview = document.createElement('img');
+
+
+        p.appendChild(preview);
+
+        input.addEventListener("change", () => {
+            const file = input.files[0];
+            if (!file) return;
+
+
+            preview.src = URL.createObjectURL(file);
+            preview.style.display='block'
+            preview.style.width = '100%';
+            preview.style.borderRadius='15px';
+            placeholder.remove()
+
+            input.style.display='none';
+            inputtf= true
+            input.remove()
+
+
+        });
+        let temp=document.createElement('div')
+        p.appendChild(temp);
+
+
+
+
+        p.focus();
+    }
+    let place= document.createElement('p');
+
+    setInterval(titlecheck,500)
+
+    function titlecheck(){
+        if (document.querySelector('.tblock')!= null){
+            if (document.querySelector('.tblock').innerText.trim()==''){
+                place.style.display='block'
+            }else{
+                place.style.display='none'
+
+            }
+        }
+    }
+
+
+    function nblock(){
+
+        place.innerText='Enter your Title'
+        place.style.textAlign='center'
+        let t= document.createElement('div');
+        document.querySelector('.editor').appendChild(place);
+        document.querySelector('.editor').appendChild(t);
+        t.classList.add('tblock');
+        document.querySelector('.nav').classList.add('start');
+        t.setAttribute('contenteditable','true')
+        t.style.border='1px solid rgba(22, 0, 44, 0.5)';
+        t.style.height='fit-content'
+        t.style.borderRadius='15px'
+        t.style.textAlign='center'
+        t.focus();
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            currentblock='h';
+            hblock();
+            if (document.querySelector('.editor').childNodes[1]===undefined) {
+                document.querySelector('.editor').style.height='fit-content'
+            }
+        }
+
+        else if (e.ctrlKey && e.key.toLowerCase() === 'p') {
+            e.preventDefault();
+            currentblock='p'
+            pblock()
+            if (document.querySelector('.editor').childNodes[1]===undefined) {
+                document.querySelector('.editor').style.height='fit-content'
+            }
+        }
+        else if (e.ctrlKey && e.key.toLowerCase() === 'm') {
+            e.preventDefault();
+            currentblock='m'
+            mblock()
+            if (document.querySelector('.editor').childNodes[1]===undefined) {
+                document.querySelector('.editor').style.height='fit-content'
+            }
+        }
+        else if (e.ctrlKey && e.key===' ' && document.querySelector('.editor').childNodes[1]===undefined) {
+            document.querySelector('.editor').style.display='block';
+            document.querySelector('.none').style.display='none'
+            e.preventDefault();
+            if (document.querySelector('.editor').childNodes[1]===undefined){
+                document.querySelector('.editor').style.height='fit-content'
+            }
+
+            nblock()
+
+        }
+
+
+        /*styles*/
+
+        else if (e.ctrlKey && e.shiftKey && e.key==='ArrowLeft') {
+            e.preventDefault();
+            document.activeElement.style.textAlign='left'
+        }
+        else if (e.ctrlKey && e.shiftKey && e.key==='ArrowUp') {
+            e.preventDefault();
+            document.activeElement.style.textAlign='center'
+        }
+        else if (e.ctrlKey && e.shiftKey && e.key==='ArrowRight') {
+            e.preventDefault();
+            document.activeElement.style.textAlign='right'
+        }
+        else if (e.ctrlKey && e.shiftKey  && e.key.toLowerCase() === '$') {
+            e.preventDefault();
+            document.activeElement.style.color='rgba(129,24,193,0.6)'
+        }
+        else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === '#') {
+            e.preventDefault();
+            document.activeElement.style.color='rgba(3,0,92,0.6)'
+        }
+        else if (e.ctrlKey && e.shiftKey && e.key === '@') {
+            e.preventDefault();
+            document.activeElement.style.color='rgba(99,0,96,0.6)'
+        }
+        else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === '!') {
+            e.preventDefault();
+            document.activeElement.style.color='rgba(22, 0, 44, 0.6)'
+        }
+        else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === '%') {
+            e.preventDefault();
+            document.activeElement.style.color='rgba(181,0,73,0.6)'
+        }
+
+        else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === '^') {
+            e.preventDefault();
+            document.activeElement.style.color='rgba(115,47,0,0.6)'
+        }
+        else if (e.altKey && e.key.toLowerCase() === '0') {
+            e.preventDefault();
+            document.activeElement.style.borderStyle='solid'
+        }
+        else if (e.altKey && e.key.toLowerCase() === '2') {
+            e.preventDefault();
+            document.activeElement.style.borderStyle='hidden'
+        }
+        else if (e.altKey && e.key.toLowerCase() === '3') {
+            e.preventDefault();
+            document.activeElement.style.borderStyle='dashed'
+        }
+        else if (e.ctrlKey &&  e.key === 'ArrowDown' && (document.activeElement.className === 'pblock' || document.activeElement.className === 'hblock')) {
+            let el= document.activeElement;
+            e.preventDefault();
+            let parent = el.parentElement;
+            if (!parent.classList.contains('hold')) {
+
+                let holder = document.createElement('div')
+                el.parentElement.insertBefore(holder,el)
+                holder.append(el)
+
+                holder.style.height = 'fit-content'
+                holder.style.display = 'flex'
+                holder.classList.add('hold')
+            }
+
+
+            let newdiv = document.createElement('div')
+
+            newdiv.style.border='1px solid rgba(22, 0, 44, 0.5)';
+            newdiv.style.height='fit-content'
+            newdiv.style.borderRadius='15px'
+
+            newdiv.classList.add(el.className)
+            newdiv.style.flex='1'
+            newdiv.setAttribute('contenteditable','true')
+            el.style.flex='1'
+            el.parentElement.append(newdiv)
+            newdiv.focus()
+
+
+
+        }
+        else if (e.ctrlKey && e.key==='Backspace') {
+            e.preventDefault();
+            let el=document.activeElement
+            if (el.classList.contains('hblock') || el.classList.contains('pblock')|| el.classList.contains('mblock')){
+                el.remove()
+                if (document.querySelector('.editor').childNodes[0]===undefined){
+                    document.querySelector('.editor').style.display='none';
+                }
+                document.querySelector('.editor').childNodes[document.querySelector('.editor').childNodes.length-1].focus()
+
+            }
+
+        }
+        else if (e.ctrlKey && e.key==='Enter'){
+            if (currentblock === 'p'){
+                pblock()
+            }
+            else if (currentblock === 'm'){
+                mblock()
+            }
+            else if (currentblock === 'h'){
+                hblock()
+            }
+        }
+
+
+
+        else if (e.key==='ArrowRight' && e.altKey) {
+            e.preventDefault();
+            let el = document.activeElement;
+
+            el.nextElementSibling.focus()
+            let arrow= document.createElement('p')
+            arrow.classList.add('arrow')
+            arrow.innerText='➡'
+            el.parentElement.insertBefore(arrow, el.nextSibling)
+        }
+        else if (e.key==='ArrowUp' && e.altKey) {
+            e.preventDefault();
+            let el = document.activeElement;
+            try{
+                el.previousElementSibling.focus()
+
+            }catch(err){
+                el.focus()
+
+            }
+
+            let arrow= document.createElement('p')
+            arrow.classList.add('arrow')
+            arrow.innerText='⬆'
+            el.parentElement.insertBefore(arrow, el)
+        }
+        else if (e.key==='ArrowLeft' && e.altKey) {
+            e.preventDefault();
+            let el = document.activeElement;
+            el.previousElementSibling.focus()
+
+            let arrow= document.createElement('p')
+            arrow.classList.add('arrow')
+            arrow.innerText='⬅'
+            el.parentElement.insertBefore(arrow, el)
+        }
+        else if (e.key==='ArrowDown' && e.altKey) {
+            e.preventDefault();
+            let el = document.activeElement;
+            try{
+                el.nextElementSibling.focus()
+
+            }catch(err){
+                el.focus()
+
+            }
+
+
+            let arrow= document.createElement('p')
+            arrow.classList.add('arrow')
+
+            arrow.innerText='⬇'
+            el.parentElement.insertBefore(arrow, el.nextSibling)
+            e
+        }
+
+
+
+        if ( e.shiftKey && e.key==='ArrowUp') {
+            if (!document.activeElement.parentElement.classList.contains('hold')){
+                if (document.activeElement.previousElementSibling.classList.contains('arrow')) {
+                    document.activeElement.previousSibling.remove()
+
+                }
+            }
+
+
+        }
+        if ( e.shiftKey && e.key==='ArrowDown') {
+            if (document.activeElement.nextElementSibling.classList.contains('arrow')) {
+                document.activeElement.nextSibling.remove()
+
+            }        }
+        if ( e.shiftKey && e.key==='ArrowLeft') {
+            if (document.activeElement.previousElementSibling.classList.contains('arrow')) {
+                document.activeElement.previousSibling.remove()
+
+            }        }
+        if ( e.shiftKey && e.key==='ArrowRight') {
+            if (document.activeElement.nextElementSibling.classList.contains('arrow')) {
+                document.activeElement.nextSibling.remove()
+
+            }        }
+
+
+
+
+    })
+
+    if (document.querySelector('.editor').childNodes[1]===undefined){
+        document.querySelector('.editor').style.display='none';
+    }
+    document.querySelector('.editor').addEventListener('input', () => {
+        MathJax.typesetPromise([document.querySelector('.editor')]);
+    });
+
+
+
+
+
+
+</script>
+</body>
+</html>
