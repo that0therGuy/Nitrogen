@@ -14,7 +14,7 @@
 
     <div class="links">
         <a>Repository</a>
-        <a>@that0therguy</a>
+        <p class="time"></p>
     </div>
 
 </div>
@@ -200,12 +200,26 @@
         outline: none;
 
     }
+    .time{
+        margin:0;
+        font-weight:bold;
+        border: 1px solid rgba(106, 23, 87,.3);
+        border-radius: 5px;
+        padding:5px;
+        background: linear-gradient(45deg, rgba(110, 14, 88, 0.05) 0%, rgba(103, 50, 161, 0.1) 100%);
+
+    }
 
 
 
 </style>
 
 <script>
+    setInterval(time,100)
+    function time(){
+        let d= new Date();
+        document.querySelector('.time').innerHTML= d.getHours()+':'+d.getMinutes()+':'+d.getSeconds();
+    }
     let x= 0
     let img_n=0
     let currentblock='';
