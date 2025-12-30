@@ -37,6 +37,7 @@
     body{
         background: linear-gradient(45deg, rgba(106, 23, 87, 0.3) 0%, rgba(142, 125, 161, .3) 100%);
         background-attachment: fixed;
+
     }
     ::selection{
         background-color:rgba(106, 23, 87,.2);
@@ -62,6 +63,8 @@
         display: block;
         margin:5%;
         background-color:transparent;
+        padding:1%;
+
     }
     .hblock{
         padding:10px;
@@ -172,6 +175,29 @@
         width:100%;
         margin-top:0;
         border-radius: 2px;
+
+    }
+    .contain{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        gap:20px;
+    }
+    .author{
+        font-family: "jetbrains mono";
+        border: 1px solid rgba(106, 23, 87,.3);
+        box-shadow: 0 0 10px 0 rgba(247, 179, 255, 0.3);
+        text-align: center;
+        width:fit-content;
+        min-width:20px;
+        background: linear-gradient(45deg, rgba(110, 14, 88, 0.05) 0%, rgba(103, 50, 161, 0.1) 100%);
+        border-radius: 5px;
+        padding:7px;
+        resize: horizontal;
+        font-size:1em;
+    }
+    .author:focus{
+        outline: none;
 
     }
 
@@ -399,7 +425,7 @@
             e.preventDefault();
             document.activeElement.style.color='rgba(115,47,0,0.6)'
         }
-        else if (e.altKey && e.key.toLowerCase() === '0') {
+        else if (e.altKey && e.key.toLowerCase() === '1') {
             e.preventDefault();
             document.activeElement.style.borderStyle='solid'
         }
@@ -456,6 +482,22 @@
             }
 
         }
+        else if (e.ctrlKey && e.key==='End') {
+            let p = document.createElement('p');
+            p.innerText='From '
+            let text = document.createElement('textarea');
+            text.classList.add('author')
+            text.setAttribute('rows','1')
+
+            text.placeholder='Enter Author'
+            let contain= document.createElement('div')
+            contain.appendChild(p);
+            contain.appendChild(text);
+            contain.classList.add('contain');
+            document.querySelector('.editor').append(contain)
+
+
+        }
         else if (e.ctrlKey && e.key==='Enter'){
             if (currentblock === 'p'){
                 pblock()
@@ -467,6 +509,156 @@
                 hblock()
             }
         }
+
+
+
+
+
+
+        else if (e.shiftKey && e.key==='ArrowDown') {
+
+            if (document.activeElement.parentElement.classList.contains('hold')) {
+                if (document.activeElement.parentElement.nextElementSibling.classList.contains('hold')) {
+                    document.activeElement.parentElement.nextElementSibling.firstElementChild.focus()
+                }else{
+                    document.activeElement.parentElement.nextElementSibling.focus()
+
+                }
+
+            }else{
+                if (document.activeElement.nextElementSibling.classList.contains('hold')) {
+                    document.activeElement.nextElementSibling.firstElementChild.focus()
+
+                }else{
+                    document.activeElement.nextElementSibling.focus()
+
+                }
+
+            }
+        }
+
+
+
+        else if (e.shiftKey && e.key==='ArrowUp') {
+
+            if (document.activeElement.parentElement.classList.contains('hold')) {
+                if (document.activeElement.parentElement.previousElementSibling.classList.contains('hold')) {
+                    document.activeElement.parentElement.previousElementSibling.firstElementChild.focus()
+                }else{
+                    document.activeElement.parentElement.previousElementSibling.focus()
+
+                }
+
+            }else{
+                if (document.activeElement.previousElementSibling.classList.contains('hold')) {
+                    document.activeElement.previousElementSibling.firstElementChild.focus()
+
+                }else{
+                    document.activeElement.previousElementSibling.focus()
+
+                }
+
+            }
+        }
+
+
+
+        else if (e.shiftKey && e.key==='ArrowLeft') {
+
+            document.activeElement.previousElementSibling.focus()
+        }
+        else if (e.shiftKey && e.key==='ArrowRight') {
+
+            document.activeElement.nextElementSibling.focus()
+        }
+
+
+
+
+
+
+
+
+
+
+
+        else if (e.key === ' ') {
+            e.preventDefault();
+            const next = (ele)=>{
+                if (ele.key === 'ArrowUp'){
+                    let el = document.activeElement;
+                    if (!el.previousElementSibling.classList.contains('tblock')) {
+                        document.querySelector('.editor').insertBefore(el,el.previousElementSibling)
+
+                    }else{
+                        document.querySelector('.editor').appendChild(el)
+
+                    }
+                    el.focus()
+
+                }
+                else if (ele.key === 'ArrowDown'){
+                    let el = document.activeElement;
+                    if (el.nextElementSibling===null) {
+                        document.querySelector('.editor').insertBefore(el,document.querySelector('.tblock').nextElementSibling)
+
+                    }else{
+                        document.querySelector('.editor').insertBefore(el,el.nextElementSibling.nextElementSibling)
+
+                    }
+                    el.focus()
+
+                }
+                else if (ele.key === 'ArrowRight'){
+                    let el = document.activeElement;
+                    if (el.nextElementSibling===null) {
+                        el.parentElement.insertBefore(el,el.parentElement.firstElementChild)
+
+                    }else{
+                        el.parentElement.insertBefore(el,el.nextElementSibling.nextElementSibling)
+
+                    }
+                    el.focus()
+
+                }
+                else if (ele.key === 'ArrowLeft'){
+                    let el = document.activeElement;
+                    if (el.previousElementSibling===null) {
+                        el.parentElement.appendChild(el)
+
+                    }else{
+                        el.parentElement.insertBefore(el,el.previousElementSibling)
+
+                    }
+                    el.focus()
+
+                }
+
+            }
+            document.addEventListener('keydown', next);
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
